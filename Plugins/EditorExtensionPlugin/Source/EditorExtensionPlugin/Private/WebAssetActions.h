@@ -12,16 +12,22 @@ class FWebAssetActions : public FAssetTypeActions_Base
 {
 public:
 
-	FWebAssetActions(EAssetTypeCategories::Type InAssetCategory);
+	FWebAssetActions() {};
 
 	// IAssetTypeActions interface
+	bool HasActions(const TArray<UObject*>& InObjects) const override;
+
+	void GetActions(const TArray<UObject*>& InObjects, FMenuBuilder& MenuBuilder) override;
 	FText GetName() const override;
 	FColor GetTypeColor() const override;
 	UClass* GetSupportedClass() const override;
-	void OpenAssetEditor(const TArray<UObject*>& InObjects, TSharedPtr<class IToolkitHost> EditWithinLevelEditor = TSharedPtr<IToolkitHost>()) override;
 	uint32 GetCategories() override;
-	FText GetAssetDescription(const FAssetData& AssetData) const override;
+	
 	// End of IAssetTypeActions interface
+
+private:
+
+	void OnContextMenuClicked(TArray<TWeakObjectPtr<class UWebAsset>> Objects);
 
 private:
 	EAssetTypeCategories::Type MyAssetCategory;

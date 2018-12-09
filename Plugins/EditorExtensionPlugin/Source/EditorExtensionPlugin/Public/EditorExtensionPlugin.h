@@ -12,4 +12,13 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
+
+private:
+
+	void RegisterWebAssetActions();
+	void UnregisterWebAssetActions();
+
+private:
+	/** All created asset type actions.  Cached here so that we can unregister them during shutdown. */
+	TArray< TSharedPtr<class IAssetTypeActions> > CreatedAssetTypeActions;
 };

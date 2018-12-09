@@ -32,7 +32,8 @@ public class EditorExtensionPlugin : ModuleRules
                 "RHI",
                 "RenderCore",
                 "ShaderCore",
-                "UnrealEd"
+                "UnrealEd",
+                "WebBrowser"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -45,6 +46,7 @@ public class EditorExtensionPlugin : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "WebBrowser"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
