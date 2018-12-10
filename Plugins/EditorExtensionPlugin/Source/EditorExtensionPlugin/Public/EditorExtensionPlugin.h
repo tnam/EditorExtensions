@@ -18,7 +18,21 @@ private:
 	void RegisterWebAssetActions();
 	void UnregisterWebAssetActions();
 
+	void RegisterToolbarExtension();
+	void UnregisterToolbarExtension();
+	void AddToolbarExtension(class FToolBarBuilder &Builder);
+
+	void RegisterMenuExtension();
+	void UnregisterMenuExtension();
+	void AddMenuExtension(class FMenuBuilder &Builder);
+
+	void OnToolbarButtonClicked();
+
 private:
-	/** All created asset type actions.  Cached here so that we can unregister them during shutdown. */
+
 	TArray< TSharedPtr<class IAssetTypeActions> > CreatedAssetTypeActions;
+	TSharedPtr<FExtender> ToolbarExtender;
+	TSharedPtr<const FExtensionBase> ToolbarExtension;
+	TSharedPtr<FExtender> MenuExtender;
+	TSharedPtr<const FExtensionBase> MenuExtension;
 };

@@ -59,7 +59,7 @@ void FWebAssetActions::OnContextMenuClicked(TArray<TWeakObjectPtr<UWebAsset>> Ob
 
 		TSharedRef<SWindow> PreviewWindow = SNew(SWindow)
 			.Title(FText::FromString(TEXT("Preview window")))
-			.ClientSize(FVector2D(800, 600))
+			.ClientSize(FVector2D(1024, 768))
 			.SupportsMaximize(false)
 			.SupportsMinimize(false)
 			[
