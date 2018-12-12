@@ -28,6 +28,9 @@ private:
 
 	void OnToolbarButtonClicked();
 
+	void RegisterSettings();
+	void UnregisterSettings();
+
 private:
 
 	TArray< TSharedPtr<class IAssetTypeActions> > CreatedAssetTypeActions;

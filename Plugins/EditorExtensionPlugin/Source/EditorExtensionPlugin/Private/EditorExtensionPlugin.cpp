@@ -11,9 +11,13 @@
 #include "Framework/Application/SlateApplication.h"
 #include "LevelEditor.h"
 #include "SWebBrowser.h"
+#include "ISettingsModule.h"
+#include "ISettingsSection.h"
+#include "ISettingsContainer.h"
 
 #include "WebAssetActions.h"
 #include "EditorExtensionCommands.h"
+#include "WebAssetSettings.h"
 
 #define LOCTEXT_NAMESPACE "FEditorExtensionPluginModule"
 
@@ -24,6 +28,7 @@ void FEditorExtensionPluginModule::StartupModule()
 	RegisterWebAssetActions();
 	RegisterToolbarExtension();
 	RegisterMenuExtension();
+	RegisterSettings();
 }
 
 void FEditorExtensionPluginModule::ShutdownModule()
@@ -34,6 +39,7 @@ void FEditorExtensionPluginModule::ShutdownModule()
 	UnregisterWebAssetActions();
 	UnregisterToolbarExtension();
 	UnregisterMenuExtension();
+	UnregisterSettings();
 }
 
 void FEditorExtensionPluginModule::RegisterWebAssetActions()
@@ -134,9 +140,11 @@ void FEditorExtensionPluginModule::OnToolbarButtonClicked()
 	auto WebBrowser = SNew(SWebBrowser)
 		.InitialURL("https://www.raywenderlich.com/");
 
+	FVector2D WindowSize = GetMutableDefault<UWebAssetSettings>()->WindowSize;
+
 	TSharedRef<SWindow> Window = SNew(SWindow)
 		.Title(FText::FromString(TEXT("New window")))
-		.ClientSize(FVector2D(800, 600))
+		.ClientSize(WindowSize)
 		.SupportsMaximize(false)
 		.SupportsMinimize(false)
 		[
@@ -152,6 +160,34 @@ void FEditorExtensionPluginModule::OnToolbarButtonClicked()
 	else
 	{
 		FSlateApplication::Get().AddWindow(Window);
+	}
+}
+
+void FEditorExtensionPluginModule::RegisterSettings()
+{
+	if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+	{
+		// Create the new category
+		ISettingsContainerPtr SettingsContainer = SettingsModule->GetContainer("Project");
+
+		SettingsContainer->DescribeCategory("WebAsset Extension Settings",
+			LOCTEXT("WASettings", "Web Asset Settings"),
+			LOCTEXT("Description", "Configure the Web Asset extension"));
+
+		// Register the settings
+		ISettingsSectionPtr SettingsSection = SettingsModule->RegisterSettings("Project", "EditorExtension", "General",
+			LOCTEXT("WASettings", "Settings"),
+			LOCTEXT("Description", "Configure the Web Asset extension"),
+			GetMutableDefault<UWebAssetSettings>()
+		);
+	}
+}
+
+void FEditorExtensionPluginModule::UnregisterSettings()
+{
+	if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+	{
+		SettingsModule->UnregisterSettings("Project", "Settings", "General");
 	}
 }
 
