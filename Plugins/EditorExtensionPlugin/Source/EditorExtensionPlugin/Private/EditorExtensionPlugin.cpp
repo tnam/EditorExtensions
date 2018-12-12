@@ -14,7 +14,10 @@
 #include "ISettingsModule.h"
 #include "ISettingsSection.h"
 #include "ISettingsContainer.h"
+#include "PropertyEditorModule.h"
 
+#include "WebAsset.h"
+#include "WebAssetDetails.h"
 #include "WebAssetActions.h"
 #include "EditorExtensionCommands.h"
 #include "WebAssetSettings.h"
@@ -29,6 +32,7 @@ void FEditorExtensionPluginModule::StartupModule()
 	RegisterToolbarExtension();
 	RegisterMenuExtension();
 	RegisterSettings();
+	RegisterDetailsCustomizations();
 }
 
 void FEditorExtensionPluginModule::ShutdownModule()
@@ -40,6 +44,7 @@ void FEditorExtensionPluginModule::ShutdownModule()
 	UnregisterToolbarExtension();
 	UnregisterMenuExtension();
 	UnregisterSettings();
+	UnregisterDetailsCustomizations();
 }
 
 void FEditorExtensionPluginModule::RegisterWebAssetActions()
@@ -189,6 +194,21 @@ void FEditorExtensionPluginModule::UnregisterSettings()
 	{
 		SettingsModule->UnregisterSettings("Project", "Settings", "General");
 	}
+}
+
+void FEditorExtensionPluginModule::RegisterDetailsCustomizations()
+{
+	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+
+	PropertyModule.RegisterCustomClassLayout(UWebAsset::StaticClass()->GetFName(),
+				FOnGetDetailCustomizationInstance::CreateStatic(&FWebAssetDetails::MakeInstance));
+}
+
+void FEditorExtensionPluginModule::UnregisterDetailsCustomizations()
+{
+	FPropertyEditorModule& PropertyModule =FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+
+	PropertyModule.UnregisterCustomClassLayout(UWebAsset::StaticClass()->GetFName());
 }
 
 #undef LOCTEXT_NAMESPACE

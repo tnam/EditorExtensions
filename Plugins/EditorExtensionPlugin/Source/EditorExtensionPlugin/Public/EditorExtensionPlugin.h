@@ -31,6 +31,9 @@ private:
 	void RegisterSettings();
 	void UnregisterSettings();
 
+	void RegisterDetailsCustomizations();
+	void UnregisterDetailsCustomizations();
+
 private:
 
 	TArray< TSharedPtr<class IAssetTypeActions> > CreatedAssetTypeActions;
