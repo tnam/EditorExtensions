@@ -19,7 +19,6 @@ void FWebAssetDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 		.ShowAddressBar(false);
 	WebBrowser->LoadString(Payload, "");
 
-
 	DetailBuilder.EditCategory("Preview", FText::GetEmpty(), ECategoryPriority::Important).AddCustomRow(FText::GetEmpty())
 		[
 			SNew(SVerticalBox)
@@ -41,7 +40,6 @@ void FWebAssetDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 				]
 			]
 		];
-
 }
 
 TSharedRef<IDetailCustomization> FWebAssetDetails::MakeInstance()

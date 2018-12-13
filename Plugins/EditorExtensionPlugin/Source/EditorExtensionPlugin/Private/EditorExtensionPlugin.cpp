@@ -32,6 +32,7 @@ void FEditorExtensionPluginModule::StartupModule()
 	RegisterMenuExtension();
 	RegisterSettings();
 	RegisterDetailsCustomizations();
+	RegisterConsoleCommand();
 }
 
 void FEditorExtensionPluginModule::ShutdownModule()
@@ -44,6 +45,7 @@ void FEditorExtensionPluginModule::ShutdownModule()
 	UnregisterMenuExtension();
 	UnregisterSettings();
 	UnregisterDetailsCustomizations();
+	UnregisterConsoleCommand();
 }
 
 void FEditorExtensionPluginModule::RegisterWebAssetActions()
@@ -75,7 +77,7 @@ void FEditorExtensionPluginModule::RegisterToolbarExtension()
 
 	TSharedPtr<FUICommandList> CommandList = MakeShareable(new FUICommandList());
 	CommandList->MapAction(FEditorExtensionCommands::Get().OpenWindowCommand,
-		FExecuteAction::CreateRaw(this, &FEditorExtensionPluginModule::OnToolbarButtonClicked),
+		FExecuteAction::CreateRaw(this, &FEditorExtensionPluginModule::OpenBrowserWindow),
 		FCanExecuteAction());
 
 	ToolbarExtender = MakeShareable(new FExtender());
@@ -110,7 +112,7 @@ void FEditorExtensionPluginModule::RegisterMenuExtension()
 
 	TSharedPtr<FUICommandList> CommandList = MakeShareable(new FUICommandList());
 	CommandList->MapAction(FEditorExtensionCommands::Get().OpenWindowCommand,
-		FExecuteAction::CreateRaw(this, &FEditorExtensionPluginModule::OnToolbarButtonClicked),
+		FExecuteAction::CreateRaw(this, &FEditorExtensionPluginModule::OpenBrowserWindow),
 		FCanExecuteAction());
 
 	MenuExtender = MakeShareable(new FExtender());
@@ -139,7 +141,7 @@ void FEditorExtensionPluginModule::AddMenuExtension(FMenuBuilder & Builder)
 		IconBrush, NAME_None);
 }
 
-void FEditorExtensionPluginModule::OnToolbarButtonClicked()
+void FEditorExtensionPluginModule::OpenBrowserWindow()
 {
 	auto WebBrowser = SNew(SWebBrowser)
 		.InitialURL("https://www.raywenderlich.com/");
@@ -208,6 +210,21 @@ void FEditorExtensionPluginModule::UnregisterDetailsCustomizations()
 	FPropertyEditorModule& PropertyModule =FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 
 	PropertyModule.UnregisterCustomClassLayout(UWebAsset::StaticClass()->GetFName());
+}
+
+void FEditorExtensionPluginModule::RegisterConsoleCommand()
+{
+	DisplayWindowCommand = IConsoleManager::Get().RegisterConsoleCommand(TEXT("DisplayBrowserWindow"), TEXT("Display a web page"),
+		FConsoleCommandDelegate::CreateRaw(this, &FEditorExtensionPluginModule::OpenBrowserWindow));
+}
+
+void FEditorExtensionPluginModule::UnregisterConsoleCommand()
+{
+	if(DisplayWindowCommand)
+	{
+		IConsoleManager::Get().UnregisterConsoleObject(DisplayWindowCommand);
+		DisplayWindowCommand = nullptr;
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

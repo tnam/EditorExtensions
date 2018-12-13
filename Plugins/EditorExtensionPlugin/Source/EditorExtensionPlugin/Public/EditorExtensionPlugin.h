@@ -26,13 +26,16 @@ private:
 	void UnregisterMenuExtension();
 	void AddMenuExtension(class FMenuBuilder &Builder);
 
-	void OnToolbarButtonClicked();
+	void OpenBrowserWindow();
 
 	void RegisterSettings();
 	void UnregisterSettings();
 
 	void RegisterDetailsCustomizations();
 	void UnregisterDetailsCustomizations();
+
+	void RegisterConsoleCommand();
+	void UnregisterConsoleCommand();
 
 private:
 
@@ -41,4 +44,5 @@ private:
 	TSharedPtr<const FExtensionBase> ToolbarExtension;
 	TSharedPtr<FExtender> MenuExtender;
 	TSharedPtr<const FExtensionBase> MenuExtension;
+	IConsoleCommand* DisplayWindowCommand;
 };
