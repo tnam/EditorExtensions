@@ -2,7 +2,6 @@
 
 #include "EditorExtensionPlugin.h"
 
-#include "Modules/ModuleInterface.h"
 #include "Modules/ModuleManager.h"
 #include "Editor/MainFrame/Public/Interfaces/IMainFrameModule.h"
 #include "AssetToolsModule.h"

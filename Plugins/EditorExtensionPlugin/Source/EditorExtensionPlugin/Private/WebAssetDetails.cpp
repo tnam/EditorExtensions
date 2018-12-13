@@ -2,11 +2,11 @@
 
 #include "WebAssetDetails.h"
 
-#include "IDetailsView.h"
 #include "DetailLayoutBuilder.h"
 #include "DetailCategoryBuilder.h"
 #include "DetailWidgetRow.h"
 #include "SWebBrowser.h"
+#include "STextBlock.h"
 
 void FWebAssetDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
@@ -24,10 +24,22 @@ void FWebAssetDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 		[
 			SNew(SVerticalBox)
 			+ SVerticalBox::Slot()
-		.VAlign(VAlign_Center)
-		[
-			WebBrowser
-		]
+			.VAlign(VAlign_Center)
+			[
+				SNew(SHorizontalBox)
+				+ SHorizontalBox::Slot()
+				.HAlign(HAlign_Fill)
+				.VAlign(VAlign_Center)
+				[
+					SNew(STextBlock)
+					.Text((FText::FromString("Preview")))					
+				]
+				+ SHorizontalBox::Slot()
+				.HAlign(HAlign_Fill)
+				[
+					WebBrowser
+				]
+			]
 		];
 
 }

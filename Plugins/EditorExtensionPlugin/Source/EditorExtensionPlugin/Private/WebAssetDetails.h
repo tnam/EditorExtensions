@@ -6,7 +6,6 @@
 
 #include "DetailLayoutBuilder.h"
 #include "IDetailCustomization.h"
-#include "IPropertyTypeCustomization.h"
 
 /**
  * 
