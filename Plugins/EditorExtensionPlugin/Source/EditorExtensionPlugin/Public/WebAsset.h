@@ -13,9 +13,17 @@ class EDITOREXTENSIONPLUGIN_API UWebAsset : public UObject
 {
 	GENERATED_BODY()
 
-public:
+protected:
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "WebAsset")
-	FString Payload;
+	UPROPERTY(EditAnywhere, Category = "WebAsset")
+	FString Source;
 	
+public:
+	UFUNCTION(BlueprintPure, Category = WebAsset)
+	FString GetSource() { return Source; }
+
+	UFUNCTION(BlueprintCallable, Category = WebAsset)
+	void AddDoctype();
+
+	friend class FWebAssetDetails;
 };

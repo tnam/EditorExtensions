@@ -52,7 +52,7 @@ void FWebAssetActions::OnContextMenuClicked(TArray<TWeakObjectPtr<UWebAsset>> Ob
 {
 	for (const auto& Obj : Objects)
 	{
-		FString Payload = Obj->Payload;
+		FString Payload = Obj->GetSource();
 
 		auto WebBrowser = SNew(SWebBrowser);
 		WebBrowser->LoadString(Payload, "");

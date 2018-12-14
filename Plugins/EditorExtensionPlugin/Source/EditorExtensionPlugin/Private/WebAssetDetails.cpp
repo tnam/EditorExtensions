@@ -10,7 +10,7 @@
 
 void FWebAssetDetails::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	auto Handle = DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(UWebAsset, Payload));
+	auto Handle = DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(UWebAsset, Source));
 	FString Payload;  
 	Handle->GetValue(Payload);
 

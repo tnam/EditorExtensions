@@ -25,7 +25,7 @@ UObject* UWebAssetImportFactory::FactoryCreateFile(UClass* InClass, UObject* InP
 	if (FFileHelper::LoadFileToString(Payload, *Filename))
 	{
 		WebAsset = NewObject<UWebAsset>(InParent, InClass, InName, Flags);
-		WebAsset->Payload = Payload;
+		WebAsset->GetSource() = Payload;
 	}
 
 	return WebAsset;
