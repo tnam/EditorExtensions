@@ -20,7 +20,7 @@ protected:
 	
 public:
 	UFUNCTION(BlueprintPure, Category = WebAsset)
-	FString GetSource() { return Source; }
+	FString& GetSource() { return Source; }
 
 	UFUNCTION(BlueprintCallable, Category = WebAsset)
 	void AddDoctype();

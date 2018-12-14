@@ -37,6 +37,9 @@ private:
 	void RegisterConsoleCommand();
 	void UnregisterConsoleCommand();
 
+	void RegisterPinFactory();
+	void UnregisterPinFactory();
+
 private:
 
 	TArray< TSharedPtr<class IAssetTypeActions> > CreatedAssetTypeActions;
@@ -45,4 +48,5 @@ private:
 	TSharedPtr<FExtender> MenuExtender;
 	TSharedPtr<const FExtensionBase> MenuExtension;
 	IConsoleCommand* DisplayWindowCommand;
+	TSharedPtr<class FWebAssetPinFactory> PinFactory;
 };

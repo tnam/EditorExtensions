@@ -46,7 +46,8 @@ public class EditorExtensionPlugin : ModuleRules
 				"Slate",
 				"SlateCore",
                 "EditorStyle",
-                "WebBrowser"
+                "WebBrowser",
+                "GraphEditor"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

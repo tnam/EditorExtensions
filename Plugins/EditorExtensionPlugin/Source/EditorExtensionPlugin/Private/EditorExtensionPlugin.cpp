@@ -14,12 +14,14 @@
 #include "ISettingsSection.h"
 #include "ISettingsContainer.h"
 #include "PropertyEditorModule.h"
+#include "EdGraphUtilities.h"
 
 #include "WebAsset.h"
 #include "WebAssetDetails.h"
 #include "WebAssetActions.h"
 #include "EditorExtensionCommands.h"
 #include "WebAssetSettings.h"
+#include "WebAssetPinFactory.h"
 
 #define LOCTEXT_NAMESPACE "FEditorExtensionPluginModule"
 
@@ -33,6 +35,7 @@ void FEditorExtensionPluginModule::StartupModule()
 	RegisterSettings();
 	RegisterDetailsCustomizations();
 	RegisterConsoleCommand();
+	RegisterPinFactory();
 }
 
 void FEditorExtensionPluginModule::ShutdownModule()
@@ -46,6 +49,7 @@ void FEditorExtensionPluginModule::ShutdownModule()
 	UnregisterSettings();
 	UnregisterDetailsCustomizations();
 	UnregisterConsoleCommand();
+	UnregisterPinFactory();
 }
 
 void FEditorExtensionPluginModule::RegisterWebAssetActions()
@@ -225,6 +229,18 @@ void FEditorExtensionPluginModule::UnregisterConsoleCommand()
 		IConsoleManager::Get().UnregisterConsoleObject(DisplayWindowCommand);
 		DisplayWindowCommand = nullptr;
 	}
+}
+
+void FEditorExtensionPluginModule::RegisterPinFactory()
+{
+	PinFactory = MakeShareable(new FWebAssetPinFactory());
+	FEdGraphUtilities::RegisterVisualPinFactory(PinFactory);
+}
+
+void FEditorExtensionPluginModule::UnregisterPinFactory()
+{
+	FEdGraphUtilities::UnregisterVisualPinFactory(PinFactory);
+	PinFactory.Reset();
 }
 
 #undef LOCTEXT_NAMESPACE
